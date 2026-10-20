@@ -18,9 +18,9 @@ await mkdir(outDir, { recursive: true });
 // 1) 프로필 플레이스홀더: 실제 사진이 아님을 알 수 있는 단순 실루엣
 const placeholderSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640">
-  <rect width="640" height="640" fill="#e7edf5"/>
-  <circle cx="320" cy="250" r="110" fill="#b7c6d9"/>
-  <path d="M110 640c0-120 94-210 210-210s210 90 210 210z" fill="#b7c6d9"/>
+  <rect width="640" height="640" fill="#eef0ff"/>
+  <circle cx="320" cy="250" r="110" fill="#c3c8f0"/>
+  <path d="M110 640c0-120 94-210 210-210s210 90 210 210z" fill="#c3c8f0"/>
 </svg>`;
 await sharp(Buffer.from(placeholderSvg))
   .webp({ quality: 80 })
@@ -44,12 +44,12 @@ const og = new ImageResponse(
         flexDirection: "column",
         justifyContent: "center",
         padding: "80px 96px",
-        background: "#0f2747",
+        background: "linear-gradient(135deg, #0f00b2 0%, #0f00b2 50%, #0033c8 100%)",
         color: "#ffffff",
         fontFamily: "Pretendard",
       },
     },
-    h("div", { style: { fontSize: 34, color: "#b7c6d9" } }, person.affiliation),
+    h("div", { style: { fontSize: 34, color: "#c9ccff" } }, person.affiliation),
     h("div", { style: { fontSize: 64, fontWeight: 700, marginTop: 12 } }, person.name),
     h(
       "div",
@@ -58,7 +58,7 @@ const og = new ImageResponse(
     ),
     h(
       "div",
-      { style: { fontSize: 30, marginTop: 28, color: "#dce3ec", lineHeight: 1.5 } },
+      { style: { fontSize: 30, marginTop: 28, color: "#e6e8ff", lineHeight: 1.5 } },
       metadata.ogDescription,
     ),
     h("div", {

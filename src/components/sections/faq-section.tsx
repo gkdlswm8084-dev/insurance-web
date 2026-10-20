@@ -13,14 +13,14 @@ export function FaqSection() {
   if (items.length === 0) return null;
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="bg-muted py-14 md:py-20">
+    <section id="faq" aria-labelledby="faq-title" className="bg-muted py-16 md:py-28">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <SectionHeading id="faq-title" eyebrow={faq.eyebrow} title={faq.title} />
 
-        <Accordion type="multiple" className="mt-8 rounded-2xl border bg-card px-5 sm:px-6">
+        <Accordion type="multiple" className="mt-8 border-y border-foreground/80">
           {items.map((item, index) => (
             <AccordionItem key={item.question} value={`faq-${index}`}>
-              <AccordionTrigger className="min-h-14 items-center py-4 text-base font-semibold text-navy sm:text-lg">
+              <AccordionTrigger className="min-h-16 items-center rounded-none py-5 text-base font-semibold text-foreground hover:text-primary hover:no-underline sm:text-lg">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent className="text-base leading-relaxed text-muted-foreground">

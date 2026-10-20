@@ -10,7 +10,7 @@ export async function TestimonialsSection() {
   const { testimonials } = siteConfig.sections;
 
   return (
-    <section id="testimonials" aria-labelledby="testimonials-title" className="py-14 md:py-20">
+    <section id="testimonials" aria-labelledby="testimonials-title" className="py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           id="testimonials-title"
@@ -19,13 +19,13 @@ export async function TestimonialsSection() {
         />
         <ul className="mt-8 grid gap-4 md:grid-cols-2 md:gap-6">
           {items.map((item) => (
-            <li key={item.id} className="rounded-2xl border bg-card p-5 sm:p-6">
+            <li key={item.id} className="border bg-card p-5 sm:p-7">
               {item.sampleLabel && (
                 <p className="mb-3 inline-block rounded-md bg-destructive/10 px-2 py-1 text-sm font-semibold text-destructive">
                   {item.sampleLabel}
                 </p>
               )}
-              <h3 className="text-lg font-semibold text-navy">{item.title}</h3>
+              <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
               <p className="mt-2 text-base leading-relaxed text-muted-foreground">{item.content}</p>
             </li>
           ))}

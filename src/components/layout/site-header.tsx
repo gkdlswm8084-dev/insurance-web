@@ -8,7 +8,7 @@ export function SiteHeader() {
     <header className="border-b bg-white/95 backdrop-blur md:sticky md:top-0 md:z-40">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8 md:h-16">
         <a href="#top" className="flex items-baseline gap-2 rounded-md">
-          <span className="text-lg font-bold text-navy">{person.name}</span>
+          <span className="text-lg font-bold text-primary">{person.name}</span>
           <span className="text-sm text-muted-foreground">{person.affiliation}</span>
         </a>
 
@@ -17,7 +17,7 @@ export function SiteHeader() {
             <ul className="flex gap-5 text-sm font-medium text-foreground/80">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="rounded-md py-2 hover:text-navy">
+                  <a href={item.href} className="rounded-md py-2 hover:text-primary">
                     {item.label}
                   </a>
                 </li>

@@ -17,14 +17,19 @@ export function CoverageSection() {
   if (coverage.items.length === 0) return null;
 
   return (
-    <section id="coverage" aria-labelledby="coverage-title" className="bg-muted py-14 md:py-20">
+    <section id="coverage" aria-labelledby="coverage-title" className="bg-muted py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading id="coverage-title" eyebrow={coverage.eyebrow} title={coverage.title} />
 
         <ul className="mt-8 grid gap-4 md:grid-cols-3 md:gap-6">
-          {coverage.items.map((item) => (
+          {coverage.items.map((item, index) => (
             <li key={item.title}>
-              <IconCard icon={icons[item.icon]} title={item.title} description={item.description} />
+              <IconCard
+                icon={icons[item.icon]}
+                title={item.title}
+                description={item.description}
+                filled={index === 0}
+              />
             </li>
           ))}
         </ul>

@@ -23,11 +23,11 @@ export default function PrivacyPage() {
       <Link href="/" className="text-sm font-semibold text-accent-foreground underline underline-offset-4">
         ← {person.name} 홈으로
       </Link>
-      <h1 className="mt-6 text-3xl font-bold text-navy">{privacy.title}</h1>
+      <h1 className="mt-6 text-3xl font-bold text-foreground">{privacy.title}</h1>
       <div className="mt-8 space-y-8 text-base leading-relaxed">
         {privacy.sections.map((section) => (
           <section key={section.heading}>
-            <h2 className="text-xl font-semibold text-navy">{section.heading}</h2>
+            <h2 className="text-xl font-semibold text-foreground">{section.heading}</h2>
             {section.paragraphs.map((paragraph) => (
               <p key={paragraph} className="mt-3 text-muted-foreground">
                 {paragraph}

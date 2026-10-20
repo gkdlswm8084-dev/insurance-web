@@ -4,25 +4,34 @@ import { siteConfig } from "@/config/site";
 import { getKakaoHref, getPhoneContact } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
+/** light: 흰 배경 위 / dark: 코발트 배경 위 */
+type Tone = "light" | "dark";
+
 type ContactButtonProps = {
   channel: "kakao" | "phone";
   /** compact: 모바일 하단 바·헤더용 짧은 문구 */
   compact?: boolean;
   /** 전화 버튼에 번호를 함께 표시합니다. */
   showNumber?: boolean;
+  tone?: Tone;
   className?: string;
 };
 
 const baseClass =
-  "inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-3 text-base font-semibold leading-tight text-center transition-colors";
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold leading-tight text-center transition-colors";
 
-const channelClass = {
-  kakao: "bg-kakao text-kakao-foreground hover:bg-kakao-hover",
-  phone: "border border-navy bg-white text-navy hover:bg-accent",
-} as const;
+// 카카오톡 버튼은 배경과 관계없이 카카오 노란색을 유지합니다.
+const kakaoClass = "bg-kakao text-kakao-foreground hover:bg-kakao-hover";
 
-const unavailableClass =
-  "cursor-not-allowed border border-dashed border-muted-foreground/50 bg-muted text-muted-foreground";
+const phoneClass: Record<Tone, string> = {
+  light: "border border-primary bg-white text-primary hover:bg-accent",
+  dark: "border border-white bg-transparent text-white hover:bg-white/10",
+};
+
+const unavailableClass: Record<Tone, string> = {
+  light: "cursor-not-allowed border border-dashed border-muted-foreground/50 bg-muted text-muted-foreground",
+  dark: "cursor-not-allowed border border-dashed border-white/50 bg-white/10 text-white/85",
+};
 
 /**
  * 모든 카카오톡·전화 CTA가 공유하는 버튼입니다.
@@ -32,6 +41,7 @@ export function ContactButton({
   channel,
   compact = false,
   showNumber = false,
+  tone = "light",
   className,
 }: ContactButtonProps) {
   const { labels } = siteConfig.contact;
@@ -45,7 +55,7 @@ export function ContactButton({
         <UnavailableButton
           label={compact ? labels.kakaoUnavailableShort : labels.kakaoUnavailable}
           icon={icon}
-          className={className}
+          className={cn(unavailableClass[tone], className)}
         />
       );
     }
@@ -55,7 +65,7 @@ export function ContactButton({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={cn(baseClass, channelClass.kakao, className)}
+        className={cn(baseClass, kakaoClass, className)}
       >
         {icon}
         <span>{compact ? labels.kakaoShort : labels.kakao}</span>
@@ -70,7 +80,7 @@ export function ContactButton({
       <UnavailableButton
         label={compact ? labels.phoneUnavailableShort : labels.phoneUnavailable}
         icon={icon}
-        className={className}
+        className={cn(unavailableClass[tone], className)}
       />
     );
   }
@@ -79,7 +89,7 @@ export function ContactButton({
     <a
       href={phone.href}
       aria-label={`${labels.phoneShort} ${phone.display}`}
-      className={cn(baseClass, channelClass.phone, className)}
+      className={cn(baseClass, phoneClass[tone], className)}
     >
       {icon}
       <span>{compact ? labels.phoneShort : labels.phone}</span>
@@ -98,7 +108,7 @@ function UnavailableButton({
   className?: string;
 }) {
   return (
-    <button type="button" disabled className={cn(baseClass, unavailableClass, className)}>
+    <button type="button" disabled className={cn(baseClass, className)}>
       {icon}
       <span>{label}</span>
     </button>
@@ -109,14 +119,16 @@ function UnavailableButton({
 export function ContactButtons({
   className,
   showNumber = false,
+  tone = "light",
 }: {
   className?: string;
   showNumber?: boolean;
+  tone?: Tone;
 }) {
   return (
     <div className={cn("flex flex-col gap-3 sm:flex-row", className)}>
-      <ContactButton channel="kakao" className="sm:flex-[3]" />
-      <ContactButton channel="phone" showNumber={showNumber} className="sm:flex-[2]" />
+      <ContactButton channel="kakao" tone={tone} className="sm:flex-[3]" />
+      <ContactButton channel="phone" tone={tone} showNumber={showNumber} className="sm:flex-[2]" />
     </div>
   );
 }

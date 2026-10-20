@@ -16,7 +16,7 @@ export default function HomePage() {
     <div id="top">
       <a
         href="#main"
-        className="sr-only z-[60] rounded-md bg-navy px-4 py-3 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+        className="sr-only z-[60] rounded-md bg-primary px-4 py-3 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >
         {siteConfig.ui.skipToContent}
       </a>
