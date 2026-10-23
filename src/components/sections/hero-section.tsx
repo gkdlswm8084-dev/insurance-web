@@ -1,4 +1,5 @@
 import { ContactButtons } from "@/components/common/contact-button";
+import { KakaoShareButton } from "@/components/common/kakao-share-button";
 import { ProfileImage } from "@/components/common/profile-image";
 import { SonarGrid } from "@/components/ui/sonar-grid";
 import { siteConfig } from "@/config/site";
@@ -48,6 +49,7 @@ export function HeroSection() {
             </p>
 
             <ContactButtons tone="dark" className="mt-8 max-w-xl" />
+            <KakaoShareButton className="mt-3" />
           </div>
 
           <ProfileImage

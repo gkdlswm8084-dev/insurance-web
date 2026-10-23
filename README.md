@@ -100,14 +100,29 @@ contact: {
 
 ### 공개 도메인과 링크 미리보기
 
-공개 도메인이 확정되기 전까지 `siteUrl`은 빈 값으로 둡니다. 이때는 다음과 같이 동작합니다.
+현재 `siteUrl`은 `https://insurance-web-smoky.vercel.app`으로 설정되어 있어 canonical, `og:url`,
+`og:image`가 만들어지고 검색 노출이 허용됩니다.
 
-- canonical URL과 `og:image`(카카오톡 미리보기에 절대 URL이 필요함)를 만들지 않습니다.
-- 검색 노출을 막는 `noindex, nofollow`를 설정합니다. 그래서 로컬 Lighthouse SEO 점수가 낮게 나옵니다.
+`siteUrl`을 빈 값으로 두면 canonical·`og:image`(카카오톡 미리보기에 절대 URL이 필요함)를 만들지 않고
+검색 노출을 막는 `noindex, nofollow`를 설정합니다. 도메인을 바꾸면 이 값과 아래 카카오 설정의 등록 도메인을
+함께 바꾸고, [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)로 미리보기 캐시를 갱신하세요.
 
-`siteUrl`에 실제 도메인(예: `"https://example.com"`)을 넣으면 canonical, `og:url`, `og:image`가 자동으로
-설정되고 `noindex`가 해제됩니다. 로컬 환경에서는 카카오톡 링크 미리보기 수집을 확인할 수 없으므로
-공개 전에 [카카오 공유 디버거](https://developers.kakao.com/tool/debugger/sharing)로 확인해야 합니다.
+### 카카오톡 공유하기 (온라인 명함)
+
+첫 화면 상담 버튼 아래의 "카카오톡으로 공유하기" 버튼으로 홈페이지를 명함 카드 형태로 보낼 수 있습니다.
+
+- **설정 위치**
+  - 카카오 JavaScript 키, SDK 주소·integrity, 등록 도메인: `src/config/kakao.ts`
+  - 버튼 이름, 카드 버튼, 안내 문구: `src/config/site.ts`의 `share`
+  - 카드 제목·설명은 `person.name`·`affiliation`·`headline`, 이미지는 `og-image.png`를 사용합니다.
+- **동작 순서**: 카카오톡 공유 → (실패 시) 휴대폰 기본 공유창 → (불가 시) 링크 복사 후 안내 문구 표시.
+  SDK가 로드되기 전에 누르거나 로드에 실패해도 페이지는 정상 동작합니다.
+- **등록 도메인에서만 카카오 공유 사용**: 로컬(`localhost`)이나 Vercel 미리보기 주소에서는 카카오 공유 대신
+  기본 공유창·링크 복사로 동작합니다. 카드 안의 링크는 항상 등록 도메인의 https 절대 주소입니다.
+- **카카오 개발자 콘솔 확인 항목**: 앱 > 플랫폼 > Web의 사이트 도메인과, 제품 링크 관리의 도메인에
+  `https://insurance-web-smoky.vercel.app`이 등록되어 있어야 합니다.
+- **외부 스크립트**: 카카오 JavaScript SDK(공식 CDN `t1.kakaocdn.net`)를 페이지 표시 후 여유 시간에 불러옵니다.
+  이 사이트가 불러오는 유일한 외부 스크립트이며, 카카오의 개인정보 처리 조건이 적용됩니다.
 
 ## 폴더 구조
 
@@ -122,13 +137,14 @@ src/
 ├── components/
 │   ├── layout/               # 헤더, 푸터, 모바일 하단 고정 바, 개발용 설정 안내
 │   ├── sections/             # Hero, 상담 철학, 보험 점검, 진행 방법, FAQ, 후기, 마지막 안내
-│   ├── common/               # 공통 연락 버튼, 섹션 제목, 아이콘 카드, 프로필 이미지
+│   ├── common/               # 공통 연락 버튼, 카카오톡 공유 버튼, 섹션 제목, 아이콘 카드, 프로필 이미지
 │   └── ui/                   # shadcn/ui 컴포넌트
 ├── config/
 │   ├── site.ts               # ★ 문구·연락처 단일 설정 파일
+│   ├── kakao.ts              # 카카오 JavaScript 키·SDK·등록 도메인 상수
 │   └── testimonials.sample.ts# 개발 전용 가상 후기
-├── lib/                      # 연락처 검증, 도메인, 후기 필터, 유틸리티
-└── types/site.ts             # 설정 데이터 타입
+├── lib/                      # 연락처 검증, 도메인, 후기 필터, 카카오 공유, 유틸리티
+└── types/                    # 설정 데이터 타입, 카카오 SDK 타입
 scripts/
 ├── generate-images.mjs       # 프로필 플레이스홀더·OG 이미지 생성
 └── verify-build-content.mjs  # 빌드 결과물 콘텐츠 검사
@@ -149,11 +165,12 @@ scripts/
 | 고객 후기·사례 | 없음 → 섹션 숨김 |
 | 상담 가능 지역 | 표기하지 않음 |
 | 개인정보 처리방침 | 실제 운영 방식 확정 전 → 링크·페이지 숨김 |
-| 공식 도메인 | 없음 → canonical·og:image 생략, noindex |
+| 공식 도메인 | `https://insurance-web-smoky.vercel.app` 설정됨 → canonical·og:image 생성, 검색 노출 허용 |
 | 광고 심의·내부 승인 | 승인 전 → `footer.complianceNumber` 비어 있음 |
 | 모든 문구(소개·철학·점검·절차·FAQ·하단 유의사항) | 초안. 실제 상담 방식과 일치하는지, 사내 심의 필요 여부 확인 |
 
 이 사이트는 개인정보 입력 양식, 로그인, 데이터베이스, 분석·추적 스크립트를 포함하지 않습니다.
+외부 스크립트는 카카오톡 공유용 카카오 JavaScript SDK 하나뿐입니다.
 연락은 외부 카카오톡·전화 링크로만 시작됩니다.
 
 ## 검증 기록 (로컬)

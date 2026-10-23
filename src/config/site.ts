@@ -7,7 +7,7 @@ import type { SiteConfig } from "../types/site";
  * - 아래 문구는 초안이며, 공개 전 운영자의 검토와 필요한 사내 심의를 거쳐야 합니다.
  */
 export const siteConfig: SiteConfig = {
-  siteUrl: "",
+  siteUrl: "https://insurance-web-smoky.vercel.app",
 
   person: {
     name: "안재현",
@@ -176,6 +176,20 @@ export const siteConfig: SiteConfig = {
       width: 1200,
       height: 630,
       alt: "안재현 보험설계사 — 내 보험, 제대로 알고 계신가요?",
+    },
+  },
+
+  // 카카오톡 공유하기(온라인 명함). 카드 제목·설명은 person.name·affiliation·headline에서 만들어집니다.
+  share: {
+    buttonLabel: "카카오톡으로 공유하기",
+    // 카카오 공유 카드의 버튼은 등록 도메인 안의 경로만 연결할 수 있습니다.
+    cardButtons: [
+      { title: "홈페이지 보기", path: "/" },
+      { title: "자주 묻는 질문", path: "/#faq" },
+    ],
+    messages: {
+      copied: "링크를 복사했습니다. 카카오톡 대화창에 붙여 넣어 주세요.",
+      failed: "공유하지 못했습니다. 잠시 후 다시 시도해 주세요.",
     },
   },
 

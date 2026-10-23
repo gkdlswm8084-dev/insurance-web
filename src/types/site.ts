@@ -125,6 +125,16 @@ export type SiteConfig = {
     };
   };
 
+  share: {
+    buttonLabel: string;
+    /** path는 "/"로 시작하는 사이트 내부 경로 (예: "/#faq") */
+    cardButtons: { title: string; path: string }[];
+    messages: {
+      copied: string;
+      failed: string;
+    };
+  };
+
   ui: {
     skipToContent: string;
     devNoticeTitle: string;
